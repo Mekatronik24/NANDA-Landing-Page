@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>NANDA-Assist</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#f5f7fb;--card:#ffffff;--text:#0f172a;--muted:#6b7280;--brand:#2563eb;--shadow:0 10px 30px rgba(2,6,23,.08);--radius:14px}
+    *{box-sizing:border-box} html,body{margin:0;height:100%}
+    body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--text);background:var(--bg);line-height:1.5}
+
+    .auth{min-height:100vh;display:grid;place-items:center;padding:24px}
+    .auth-card{width:100%;max-width:980px;display:grid;grid-template-columns:1fr 1fr;gap:20px}
+    .auth .brand{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+    .badge{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,#60a5fa,#1e40af);display:grid;place-items:center;color:#fff;font-weight:800;box-shadow:var(--shadow)}
+    .card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px}
+    .form{display:grid;gap:12px}
+    .form label{font-size:12px;font-weight:700;color:#475569}
+    .input,textarea{width:100%;padding:12px 14px;border:1px solid #e2e8f0;border-radius:10px;background:#fff}
+    .row{display:grid;gap:12px;grid-template-columns:1fr 1fr}
+    .btn{background:var(--brand);color:#fff;border:none;padding:12px 16px;border-radius:12px;cursor:pointer;font-weight:700}
+    .btn.ghost{background:#fff;border:1px solid #dbeafe;color:#1e40af}
+    .right{display:flex;justify-content:flex-end}
+    .muted{color:var(--muted)}
+    @media (max-width:960px){.auth-card{grid-template-columns:1fr}}
+
+    .nav{position:sticky;top:0;z-index:50;background:#fff;border-bottom:1px solid #e5e7eb}
+    .nav .inner{max-width:1100px;margin:auto;display:flex;align-items:center;gap:22px;padding:12px 20px}
+    .logo{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.2px}
+    .nav a{color:#334155;text-decoration:none;font-weight:600}
+    .nav ul{display:flex;gap:18px;margin-left:auto;list-style:none;padding:0}
+    .nav .cta{background:var(--brand);color:#fff;padding:10px 14px;border-radius:10px;box-shadow:var(--shadow)}
+
+    .hero{max-width:1100px;margin:40px auto;display:grid;grid-template-columns:1.2fr .8fr;gap:28px;padding:0 20px}
+    .hero h1{font-size:44px;line-height:1.1;margin:8px 0 14px}
+    .hero p{color:var(--muted);font-size:18px;margin:0 0 22px}
+    .actions{display:flex;gap:12px;flex-wrap:wrap}
+    .hero-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px}
+    .pill{font-size:12px;background:#f1f5f9;border-radius:999px;padding:4px 8px}
+
+    .section{max-width:1100px;margin:60px auto;padding:0 20px}
+    .section h2{font-size:28px;margin:0 0 18px}
+    .grid{display:grid;gap:16px}
+    .grid.cols-3{grid-template-columns:repeat(3,1fr)}
+    @media (max-width:960px){.hero{grid-template-columns:1fr}.grid.cols-3{grid-template-columns:1fr}}
+
+    .tabs{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 16px}
+    .tab{background:#eef2ff;color:#1e3a8a;padding:8px 12px;border:none;border-radius:999px;font-weight:700;cursor:pointer}
+    .tab.active{background:var(--brand);color:#fff}
+    .panel{display:none}
+    .panel.active{display:block;animation:fade .2s ease-in}
+    @keyframes fade{from{opacity:.3;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+    .list{display:grid;gap:12px}
+    .item{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center}
+    .item .title{font-weight:700}
+    .item small{color:var(--muted)}
+    .timeline{display:grid;gap:12px;border-left:2px solid #e2e8f0;padding-left:16px}
+    .tl{background:#fff;border-radius:12px;padding:14px;border:1px solid #e5e7eb}
+
+    footer{margin-top:60px;border-top:1px solid #e5e7eb;background:#fff}
+    footer .inner{max-width:1100px;margin:auto;padding:24px 20px;color:#64748b;font-size:14px}
+
+    .hidden{display:none}
+  </style>
+</head>
+<body>
+
+  <section id="auth" class="auth">
+    <div class="auth-card">
+      <div class="card">
+        <div class="brand"><div class="badge">N</div><strong>NANDA-Assist</strong></div>
+        <h3 style="margin:0 0 6px">Iniciar Sesión</h3>
+        <form class="form" id="formLogin">
+          <div><label>Usuario</label><input class="input" type="text" id="user" required></div>
+          <div><label>Contraseña</label><input class="input" type="password" id="pass" required></div>
+          <div class="right"><button class="btn" type="submit">Ingresar</button></div>
+          <p id="loginMsg" class="muted"></p>
+        </form>
+      </div>
+
+      <div class="card">
+        <div class="brand"><div class="badge">N</div><strong>NANDA-Assist</strong></div>
+        <h3 style="margin:0 0 6px">Crear Cuenta Profesional</h3>
+        <form class="form" id="formRegister">
+          <div class="row">
+            <div><label>Nombre</label><input class="input" type="text" id="regNombre" required></div>
+            <div><label>Apellido</label><input class="input" type="text" id="regApellido" required></div>
+          </div>
+          <div><label>Correo</label><input class="input" type="email" id="regCorreo" required></div>
+          <div><label>Área</label><input class="input" type="text" id="regArea" required></div>
+          <div class="row">
+            <div><label>Contraseña</label><input class="input" type="password" id="regPass" required></div>
+            <div><label>Confirmar</label><input class="input" type="password" id="regPass2" required></div>
+          </div>
+          <div class="right"><button class="btn ghost" type="submit">Registrarme</button></div>
+          <p id="regMsg" class="muted"></p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section id="app" class="hidden">
+    <nav class="nav">
+      <div class="inner">
+        <div class="logo"><div class="badge">N</div><span>NANDA-Assist</span></div>
+        <ul>
+          <li><a href="#inicio">Inicio</a></li>
+          <li><a href="#funciones">Funciones</a></li>
+          <li><a href="#demo">Módulos</a></li>
+          <li><a class="cta" href="#demo">Abrir</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <section id="inicio" class="hero">
+      <div>
+        <span class="pill">NANDA / NIC / NOC</span>
+        <h1>Cuidados de enfermería más rápidos, claros y seguros.</h1>
+        <p>Registre signos vitales, visualice el historial y prepare planes de cuidados con una interfaz sencilla.</p>
+        <div class="actions">
+          <a class="btn" href="#demo">Abrir módulos</a>
+          <a class="btn ghost" id="logoutBtn">Cerrar sesión</a>
+        </div>
+      </div>
+      <div class="hero-card">
+        <strong>Interfaz moderna</strong>
+        <p class="muted">Diseño claro, tipografía legible y componentes consistentes.</p>
+        <ul class="muted" style="margin:0 0 0 18px">
+          <li>Registro clínico</li>
+          <li>Diagnósticos sugeridos</li>
+          <li>Planes NIC-NOC</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="funciones" class="section">
+      <h2>Funciones principales</h2>
+      <div class="grid cols-3">
+        <div class="card"><h3>Mis Pacientes</h3><p class="muted">Listado claro para acceder a cada paciente.</p></div>
+        <div class="card"><h3>Historial</h3><p class="muted">Línea de tiempo de atenciones y evolución.</p></div>
+        <div class="card"><h3>Registro Clínico</h3><p class="muted">PA, FR, FC, temperatura y notas.</p></div>
+        <div class="card"><h3>Diagnósticos</h3><p class="muted">Sugerencias con justificación.</p></div>
+        <div class="card"><h3>Plan de Cuidados</h3><p class="muted">Intervenciones y resultados esperados.</p></div>
+        <div class="card"><h3>Presentación</h3><p class="muted">Todo en una sola página.</p></div>
+      </div>
+    </section>
+
+    <section id="demo" class="section">
+      <h2>Módulos</h2>
+      <div class="tabs" id="tabs">
+        <button class="tab active" data-tab="pacientes">1) Mis Pacientes</button>
+        <button class="tab" data-tab="historial">2) Historial</button>
+        <button class="tab" data-tab="registro">3) Nuevo Registro</button>
+        <button class="tab" data-tab="diagnosticos">4) Diagnósticos</button>
+        <button class="tab" data-tab="plan">5) Plan de Cuidados</button>
+      </div>
+
+      <div class="panel active card" id="panel-pacientes">
+        <h3 style="margin-top:0">Mis Pacientes</h3>
+        <div class="list" id="listaPacientes"></div>
+        <div class="right" style="margin-top:10px"><button class="btn ghost" type="button">➕ Agregar</button></div>
+      </div>
+
+      <div class="panel card" id="panel-historial">
+        <h3 style="margin-top:0">Historial del Paciente <span id="nomHist" class="muted"></span></h3>
+        <div class="timeline" id="tlContenido"></div>
+        <div class="right" style="margin-top:10px"><button class="btn" onclick="goTab('registro')">+ Registrar Nuevos Datos</button></div>
+      </div>
+
+      <div class="panel card" id="panel-registro">
+        <h3 style="margin-top:0">Nuevo Registro Clínico <span id="nomReg" class="muted"></span></h3>
+        <form class="form" id="formRegistro">
+          <div><label>Presión Arterial (mmHg)</label><input class="input" type="text" id="pa" placeholder="120/80" required></div>
+          <div><label>Frecuencia Respiratoria (rpm)</label><input class="input" type="number" id="fr" placeholder="16" required></div>
+          <div><label>Frecuencia Cardíaca (bpm)</label><input class="input" type="number" id="fc" placeholder="70" required></div>
+          <div><label>Temperatura (°C)</label><input class="input" type="number" step="0.1" id="temp" placeholder="36.5" required></div>
+          <div class="row" style="grid-column:1/-1">
+            <div style="grid-column:1/-1"><label>Notas Adicionales</label><textarea id="notas"></textarea></div>
+          </div>
+          <div class="right" style="grid-column:1/-1"><button class="btn" type="submit">Analizar y Sugerir Diagnóstico</button></div>
+        </form>
+      </div>
+
+      <div class="panel card" id="panel-diagnosticos">
+        <h3 style="margin-top:0">Diagnósticos Sugeridos</h3>
+        <div class="list" id="diagList"></div>
+      </div>
+
+      <div class="panel card" id="panel-plan">
+        <h3 style="margin-top:0">Crear Plan de Cuidados para: <span id="planTitulo">—</span></h3>
+        <div class="form">
+          <div style="grid-column:1/-1"><label>Intervenciones (NIC)</label><textarea id="nicBox"></textarea></div>
+          <div style="grid-column:1/-1"><label>Resultados Esperados (NOC)</label><textarea id="nocBox"></textarea></div>
+          <div class="right" style="grid-column:1/-1"><button class="btn" type="button" id="btnGuardar">Guardar Plan en Historial</button></div>
+        </div>
+      </div>
+    </section>
+
+    <footer><div class="inner">© 2025 NANDA-Assist.</div></footer>
+  </section>
+
+  <script>
+    const auth = document.getElementById('auth');
+    const app = document.getElementById('app');
+
+    function showApp(){auth.classList.add('hidden');app.classList.remove('hidden');window.scrollTo(0,0)}
+    function showAuth(){app.classList.add('hidden');auth.classList.remove('hidden');window.scrollTo(0,0)}
+
+    document.getElementById('logoutBtn').addEventListener('click',()=>{showAuth()})
+
+    document.getElementById('formLogin').addEventListener('submit',e=>{
+      e.preventDefault();
+      const u=document.getElementById('user').value.trim();
+      const p=document.getElementById('pass').value.trim();
+      const msg=document.getElementById('loginMsg');
+      if(u==='Grupo 1'&&p==='1234'){msg.textContent='Acceso correcto.';msg.style.color='#16a34a';showApp();renderPacientes()}
+      else{msg.textContent='Usuario o contraseña incorrectos.';msg.style.color='#b91c1c'}
+    });
+
+    document.getElementById('formRegister').addEventListener('submit',e=>{
+      e.preventDefault();
+      const pass=document.getElementById('regPass').value.trim();
+      const pass2=document.getElementById('regPass2').value.trim();
+      const msg=document.getElementById('regMsg');
+      if(pass!==pass2){msg.textContent='Las contraseñas no coinciden.';msg.style.color='#b91c1c';return}
+      msg.textContent='Cuenta creada.';msg.style.color='#16a34a';
+      showApp();renderPacientes()
+    });
+
+    const tabBtns=[...document.querySelectorAll('.tab')];
+    const panels={pacientes:document.getElementById('panel-pacientes'),historial:document.getElementById('panel-historial'),registro:document.getElementById('panel-registro'),diagnosticos:document.getElementById('panel-diagnosticos'),plan:document.getElementById('panel-plan')};
+    function goTab(name){tabBtns.forEach(b=>b.classList.toggle('active',b.dataset.tab===name));Object.entries(panels).forEach(([k,el])=>el.classList.toggle('active',k===name))}
+    tabBtns.forEach(b=>b.addEventListener('click',()=>goTab(b.dataset.tab)));
+
+    let pacienteActual=null;
+    const pacientes=[{id:1,nombre:'Ana Pérez',room:'Habitación 101'},{id:2,nombre:'Carlos González',room:'Habitación 102'},{id:3,nombre:'Sofía Rodríguez',room:'Habitación 103'},{id:4,nombre:'Javier Martínez',room:'Habitación 104'}];
+    const historiales={3:[{fecha:'15 de julio, 2024',titulo:'Evaluación Inicial',detalle:'Ingreso por dolor en cuadrante inferior derecho.'},{fecha:'16 de julio, 2024',titulo:'Administración de Medicamentos',detalle:'Analgésico intravenoso según pauta médica.'},{fecha:'17 de julio, 2024',titulo:'Cuidado de Heridas',detalle:'Curación de herida quirúrgica. Sin signos de infección.'},{fecha:'18 de julio, 2024',titulo:'Control de Signos Vitales',detalle:'TA, FC y temperatura en rangos.'},{fecha:'19 de julio, 2024',titulo:'Resumen de Alta',detalle:'Alta con indicaciones de cuidado en el hogar.'}]};
+
+    function renderPacientes(){
+      const cont=document.getElementById('listaPacientes');
+      cont.innerHTML='';
+      pacientes.forEach(p=>{
+        const item=document.createElement('div');
+        item.className='item';
+        item.innerHTML=`<div><div class="title">${p.nombre}</div><small class="muted">${p.room}</small></div><button class="btn ghost">Ver ➜</button>`;
+        item.querySelector('button').addEventListener('click',()=>{
+          pacienteActual=p;
+          document.getElementById('nomHist').textContent='— '+p.nombre;
+          document.getElementById('nomReg').textContent='— '+p.nombre;
+          renderHistorial(p.id);
+          goTab('historial');
+        });
+        cont.appendChild(item);
+      });
+    }
+
+    function renderHistorial(pid){
+      const data=historiales[pid]||[];
+      const box=document.getElementById('tlContenido');
+      box.innerHTML='';
+      if(data.length===0){
+        const el=document.createElement('div');
+        el.className='tl';
+        el.innerHTML=`<small class="muted">—</small><div class="title" style="margin:4px 0">Sin registros</div><div class="muted">Aún no hay entradas.</div>`;
+        box.appendChild(el);
+        return;
+      }
+      data.forEach(h=>{
+        const el=document.createElement('div');
+        el.className='tl';
+        el.innerHTML=`<small class="muted">${h.fecha}</small><div class="title" style="margin:4px 0">${h.titulo}</div><div class="muted">${h.detalle}</div>`;
+        box.appendChild(el);
+      });
+    }
+
+    document.getElementById('formRegistro').addEventListener('submit',e=>{
+      e.preventDefault();
+      const fc=+document.getElementById('fc').value;
+      const temp=+document.getElementById('temp').value;
+      const notas=document.getElementById('notas').value.trim();
+      const diags=[];
+      if(temp>=38||notas.toLowerCase().includes('herida')){diags.push({titulo:'Riesgo de Infección',code:'NANDA: 00004',just:'Herida abierta o signos compatibles con infección.'});}
+      if(notas.toLowerCase().includes('úlcera')||notas.toLowerCase().includes('piel')){diags.push({titulo:'Deterioro de la Integridad Cutánea',code:'NANDA: 00046',just:'Lesión por presión con afectación de la piel.'});}
+      if(fc>=100||notas.toLowerCase().includes('dolor')){diags.push({titulo:'Dolor Agudo',code:'NANDA: 00132',just:'Dolor elevado y taquicardia asociada.'});}
+      if(diags.length===0){diags.push({titulo:'Observación',code:'—',just:'Valores dentro de parámetros sin disparar reglas.'});}
+      renderDiagnosticos(diags);
+      goTab('diagnosticos');
+    });
+
+    function renderDiagnosticos(items){
+      const cont=document.getElementById('diagList');
+      cont.innerHTML='';
+      items.forEach(d=>{
+        const row=document.createElement('div');
+        row.className='item';
+        row.innerHTML=`<div><div class="title">${d.titulo}</div><small class="muted">${d.code}</small><div class="muted" style="margin-top:6px">${d.just}</div></div><button class="btn">Seleccionar y Crear Plan</button>`;
+        row.querySelector('button').addEventListener('click',()=>{buildPlan(d.titulo);goTab('plan');});
+        cont.appendChild(row);
+      });
+    }
+
+    function buildPlan(titulo){
+      document.getElementById('planTitulo').textContent=titulo;
+      const nic={
+        'Riesgo de Infección':'• Fomentar ingesta adecuada.\n• Inspeccionar incisiones/heridas a diario.\n• Mantener técnica de aislamiento.\n• Cambiar vendajes según guías.\n• Administrar antibiótico si corresponde.',
+        'Deterioro de la Integridad Cutánea':'• Valorar piel y zonas de presión.\n• Reposicionar cada 2 h.\n• Mantener piel limpia y seca.\n• Aplicar apósitos según protocolo.\n• Educar sobre alivio de presión.',
+        'Dolor Agudo':'• Valorar dolor con EVA.\n• Analgésicos según pauta.\n• Técnicas no farmacológicas.\n• Ajuste del entorno.\n• Reevaluación periódica.'
+      }[titulo]||'• Intervenciones definidas por valoración.';
+      const noc={
+        'Riesgo de Infección':'• Reconoce factores de riesgo.\n• Herida limpia y seca.\n• Afebril y sin signos de infección.\n• Reporta oportunamente signos y síntomas.',
+        'Deterioro de la Integridad Cutánea':'• Piel íntegra sin eritema persistente.\n• Disminución del tamaño de la lesión.\n• Dolor controlado.\n• Cuidador realiza cuidados correctamente.',
+        'Dolor Agudo':'• EVA ≤ 3.\n• Descanso adecuado.\n• Actividades básicas sin limitación por dolor.\n• Satisfacción con el manejo.'
+      }[titulo]||'• Resultados definidos por objetivos.';
+      document.getElementById('nicBox').value=nic;
+      document.getElementById('nocBox').value=noc;
+    }
+
+    function fechaES(){const m=["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];const d=new Date();return `${d.getDate()} de ${m[d.getMonth()]}, ${d.getFullYear()}`}
+
+    function guardarPlanEnHistorial(){
+      if(!pacienteActual){goTab('pacientes');return}
+      const pid=pacienteActual.id;
+      if(!historiales[pid]) historiales[pid]=[];
+      const tituloPlan=document.getElementById('planTitulo').textContent.trim();
+      const nic=document.getElementById('nicBox').value.trim().split('\n')[0]||'Intervenciones guardadas';
+      const noc=document.getElementById('nocBox').value.trim().split('\n')[0]||'Resultados guardados';
+      historiales[pid].push({fecha:fechaES(),titulo:`Plan de Cuidados: ${tituloPlan}`,detalle:`NIC: ${nic}. NOC: ${noc}.`});
+      renderHistorial(pid);
+      goTab('historial');
+    }
+    document.getElementById('btnGuardar').addEventListener('click',guardarPlanEnHistorial);
+
+    showAuth();
+  </script>
+</body>
+</html>
